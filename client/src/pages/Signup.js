@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Typography, TextField, Button, Container, Paper, Link } from '@mui/material';
+import axios from 'axios';
 import './../../src/styles/Signup.css'; // CSS import
 
 import logo from '../assets/frilo-logo.svg'; // Ya process.env.PUBLIC_URL + '/frilo-logo.png'
@@ -10,7 +11,7 @@ function Signup() {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [error, setError] = useState('');
 
-    const handleSignup = () => {
+    const handleSignup = async () => {
         if (password !== confirmPassword) {
             setError('Passwords do not match!');
             return;
@@ -19,9 +20,13 @@ function Signup() {
             setError('Password must be at least 6 characters!');
             return;
         }
-        setError('');
-        console.log('Signing up with:', { username, password });
-        alert('Signup successful! (Dummy)');
+        try {
+            const response = await axios.post('http://localhost:5000/api/signup', { username, password });
+            setError('');
+            alert(response.data.message);
+        } catch (err) {
+            setError(err.response?.data?.message || 'Signup failed');
+        }
     };
 
     return (
