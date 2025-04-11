@@ -26,7 +26,7 @@
   },
   "eslintConfig": {
     "extends": [
-      "FRILO",
+      "FRILO-Dost-Se-Udhar",
       "react-app/jest"
     ]
   },

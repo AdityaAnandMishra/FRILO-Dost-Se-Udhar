@@ -1,25 +1,37 @@
 import React, { useState } from 'react';
 import { Typography, TextField, Button, Container, Paper, Link } from '@mui/material';
-import './../../src/styles/Login.css'; // CSS import
+import './../../src/styles/Signup.css'; // CSS import
 
 import logo from '../assets/frilo-logo.svg'; // Ya process.env.PUBLIC_URL + '/frilo-logo.png'
 
-function Login() {
+function Signup() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const [error, setError] = useState('');
 
-    const handleLogin = () => {
-        console.log('Logging in with:', { username, password });
-        alert('Login successful! (Dummy)');
+    const handleSignup = () => {
+        if (password !== confirmPassword) {
+            setError('Passwords do not match!');
+            return;
+        }
+        if (password.length < 6) {
+            setError('Password must be at least 6 characters!');
+            return;
+        }
+        setError('');
+        console.log('Signing up with:', { username, password });
+        alert('Signup successful! (Dummy)');
     };
 
     return (
-        <Container className="login-page">
+        <Container className="signup-page">
             <img src={logo} alt="FRILO Logo" className="logo-image" />
-            <Paper className="login-card" elevation={3}>
+            <Paper className="signup-card" elevation={3}>
                 <Typography variant="h5" gutterBottom>
-                    Welcome Back!
+                    Create Your Account!
                 </Typography>
+                {error && <Typography color="error">{error}</Typography>}
                 <TextField
                     label="Nickname"
                     variant="outlined"
@@ -29,7 +41,7 @@ function Login() {
                     onChange={(e) => setUsername(e.target.value)}
                 />
                 <TextField
-                    label="Secret Code"
+                    label="Password"
                     type="password"
                     variant="outlined"
                     fullWidth
@@ -37,18 +49,27 @@ function Login() {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                 />
+                <TextField
+                    label="Confirm Password"
+                    type="password"
+                    variant="outlined"
+                    fullWidth
+                    margin="normal"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                />
                 <Button
                     variant="contained"
                     color="primary"
                     fullWidth
                     size="large"
-                    className="login-button"
-                    onClick={handleLogin}
+                    className="signup-button"
+                    onClick={handleSignup}
                 >
-                    Login
+                    Sign Up
                 </Button>
                 <Typography variant="body2" style={{ marginTop: '10px' }}>
-                    New here? <Link href="/signup">Sign Up</Link>
+                    Already have an account? <Link href="/">Login</Link>
                 </Typography>
             </Paper>
             <Typography className="tagline">
@@ -58,4 +79,4 @@ function Login() {
     );
 }
 
-export default Login;
+export default Signup;
